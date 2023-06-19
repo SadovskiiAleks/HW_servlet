@@ -14,9 +14,10 @@ public class PostController {
     public static final String APPLICATION_JSON = "application/json";
     private final PostService service;
 
-    private List<Post> data = new ArrayList<>();
-    private Post dataOfOnePost;
-    private Gson gson = new Gson();
+    private static final List<Post> data = new ArrayList<>();
+    // POST статик не сделать
+    private static Post dataOfOnePost;
+    private static final Gson gson = new Gson();
 
 
     public PostController(PostService service) {
