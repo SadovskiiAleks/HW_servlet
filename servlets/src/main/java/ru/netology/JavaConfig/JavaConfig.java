@@ -4,7 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import ru.netology.controller.PostController;
 import ru.netology.repository.PostRepository;
-import ru.netology.repository.PostRepositoryStubImpl;
+import ru.netology.repository.PostRepositoryImpl;
 import ru.netology.service.PostService;
 
 @Configuration
@@ -22,7 +22,7 @@ public class JavaConfig {
 
     @Bean
     public PostRepository postRepository(){
-        return new PostRepositoryStubImpl();
+        return new PostRepositoryImpl();
     }
 
 
