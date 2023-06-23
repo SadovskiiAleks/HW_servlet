@@ -9,7 +9,6 @@ import java.util.stream.Collectors;
 
 // Stub
 public class PostRepository {
-    List<String> s = new ArrayList<>();
     private ConcurrentHashMap<Long, Post> mapOfPost = new ConcurrentHashMap<>();
     private AtomicLong lastId = new AtomicLong();
 
@@ -18,13 +17,11 @@ public class PostRepository {
     }
 
     public List<Post> all() {
-        List<Post> s = mapOfPost.values().stream().collect(Collectors.toList());
-        return s;
+        return mapOfPost.values().stream().collect(Collectors.toList());
     }
 
     public Optional<Post> getById(long id) {
-        Optional<Post> s = Optional.ofNullable(mapOfPost.get(id));
-        return s;
+        return Optional.ofNullable(mapOfPost.get(id));
     }
 
     public Post save(Post post) {
