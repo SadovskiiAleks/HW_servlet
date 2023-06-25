@@ -7,13 +7,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import static ru.netology.servlet.MethodOfRequest.*;
+import static ru.netology.servlet.MainServlet.MethodOfRequest.DELETE;
+import static ru.netology.servlet.MainServlet.MethodOfRequest.GET;
+import static ru.netology.servlet.MainServlet.MethodOfRequest.POST;
 
 public class MainServlet extends HttpServlet {
 
     private static final String post = "/api/posts";
     private static final String postWithParam = "/api/posts/\\d+";
-    private static final PostController controller = null;
+    private PostController controller = null;
 
     @Override
     public void init() {
@@ -23,11 +25,11 @@ public class MainServlet extends HttpServlet {
 
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) {
-
         try {
             String path = req.getRequestURI();
             String method = req.getMethod();
             Long id;
+
             // primitive routing
             if (method.equals(GET.toString()) && path.equals(post)) {
                 controller.all(resp);
@@ -54,6 +56,10 @@ public class MainServlet extends HttpServlet {
             e.printStackTrace();
             resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
+    }
+
+    public enum MethodOfRequest {
+        GET, POST, DELETE
     }
 }
 

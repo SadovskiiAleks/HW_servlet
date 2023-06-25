@@ -1,26 +1,19 @@
 package ru.netology.controller;
 
 import com.google.gson.Gson;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import ru.netology.model.Post;
 import ru.netology.service.PostService;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.Reader;
-import java.util.ArrayList;
 import java.util.List;
-@Controller
+
 public class PostController {
     public static final String APPLICATION_JSON = "application/json";
-    private final PostService service;
-
-    private static List<Post> data = new ArrayList<>();
-    // POST статик не сделать
-    private static Post dataOfOnePost;
     private static final Gson gson = new Gson();
-
+    private static final int HTTP_OK = 200;
+    private final PostService service;
 
     public PostController(PostService service) {
         this.service = service;
@@ -28,20 +21,20 @@ public class PostController {
 
     public void all(HttpServletResponse response) throws IOException {
         response.setContentType(APPLICATION_JSON);
-        this.data = service.all();
+        List<Post> data = service.all();
         response.getWriter().print(gson.toJson(data));
     }
 
     public void getById(long id, HttpServletResponse response) throws IOException {
         // TODO: deserialize request & serialize response
         response.setContentType(APPLICATION_JSON);
-        this.dataOfOnePost = service.getById(id);
+        Post dataOfOnePost = service.getById(id);
         response.getWriter().print(gson.toJson(dataOfOnePost));
     }
 
     public void save(Reader body, HttpServletResponse response) throws IOException {
         response.setContentType(APPLICATION_JSON);
-        dataOfOnePost = gson.fromJson(body, Post.class);
+        Post dataOfOnePost = gson.fromJson(body, Post.class);
         service.save(dataOfOnePost);
         response.getWriter().print(gson.toJson(dataOfOnePost));
     }
@@ -50,6 +43,6 @@ public class PostController {
         // TODO: deserialize request & serialize response
         response.setContentType(APPLICATION_JSON);
         service.removeById(id);
-        response.setStatus(200);
+        response.setStatus(HTTP_OK);
     }
 }
