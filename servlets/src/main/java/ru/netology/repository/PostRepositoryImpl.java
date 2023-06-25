@@ -11,12 +11,10 @@ import java.util.stream.Collectors;
 
 
 public class PostRepositoryImpl implements PostRepository {
-    final private Map<Long, Post> mapOfPost = new ConcurrentHashMap<>();
-    final private AtomicLong lastId = new AtomicLong();
+    private final Map<Long, Post> mapOfPost = new ConcurrentHashMap<>();
+    private final AtomicLong lastId = new AtomicLong(0);
+    private final long startID = 0l;
 
-    public PostRepositoryImpl() {
-        lastId.set(0l);
-    }
 
     public List<Post> all() {
         return new ArrayList<>(mapOfPost.values());
@@ -27,12 +25,12 @@ public class PostRepositoryImpl implements PostRepository {
     }
 
     public Post save(Post post) {
-        if (post.getId() == 0l) {
+        if (post.getId() == startID) {
             post.setId(lastId.incrementAndGet());
         } else if (!mapOfPost.containsKey(post.getId())) {
             post.setId(lastId.incrementAndGet());
         }
-        mapOfPost.put(post.getId(), post);
+        mapOfPost.putIfAbsent(post.getId(), post);
         return post;
     }
 
